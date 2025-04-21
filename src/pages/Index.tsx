@@ -10,7 +10,7 @@ import { Sun, Moon, SendIcon } from "lucide-react";
 
 const Index = () => {
   const [messages, setMessages] = useState<{ role: string; content: string }[]>([
-    { role: "assistant", content: "Привет! Я PLGpt, нейросеть для создания игр. Опиши игру, которую хочешь создать, и я сделаю её для тебя!" },
+    { role: "assistant", content: "Привет! Я PLGpt, нейросеть для создания 2D игр. Опиши игру, которую хочешь создать, и я сделаю её для тебя! Например: 'Создай шутер с астероидами' или 'Сделай гоночную игру с препятствиями'." },
   ]);
   const [input, setInput] = useState("");
   const [gameActive, setGameActive] = useState(false);
@@ -31,17 +31,43 @@ const Index = () => {
     
     // Simulate AI response
     setTimeout(() => {
+      // Analyze the user request for game type
+      const request = input.toLowerCase();
+      let responseMessage = "";
+      
+      if (request.includes("3d") || request.includes("3 d")) {
+        responseMessage = "Извини, но на данный момент я могу создавать только 2D-игры. Давай попробуем создать 2D-версию этой игры?";
+      } else {
+        const gameType = getGameTypeFromRequest(request);
+        responseMessage = `Отлично! Я создал для тебя ${gameType} игру "${input}". Можешь начать играть прямо сейчас, используя клавиши WASD для управления${gameType === "шутер" ? " и мышь для стрельбы" : ""}.`;
+      }
+      
       setMessages(prev => [
         ...prev, 
         { 
           role: "assistant", 
-          content: `Отличный выбор! Я создал для тебя игру "${input}". Можешь начать играть прямо сейчас!` 
+          content: responseMessage 
         }
       ]);
       setGameActive(true);
     }, 1500);
     
     setInput("");
+  };
+
+  const getGameTypeFromRequest = (request: string): string => {
+    if (request.includes("стрел") || request.includes("шутер") || request.includes("shooter")) {
+      return "шутер";
+    } else if (request.includes("голово") || request.includes("puzzle") || request.includes("загад")) {
+      return "головоломку";
+    } else if (request.includes("платформер") || request.includes("платформ") || request.includes("jump") || request.includes("прыж")) {
+      return "платформер";
+    } else if (request.includes("гонк") || request.includes("racing") || request.includes("машин") || request.includes("car")) {
+      return "гоночную";
+    } else if (request.includes("готов") || request.includes("cook") || request.includes("кух")) {
+      return "кулинарную";
+    }
+    return "новую";
   };
 
   return (
@@ -51,7 +77,7 @@ const Index = () => {
         <div className="container mx-auto flex justify-between items-center">
           <div className="flex items-center gap-3">
             <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-purple-500 bg-clip-text text-transparent">PLGpt</h1>
-            <span className="text-sm text-muted-foreground">Создавай игры с помощью ИИ</span>
+            <span className="text-sm text-muted-foreground">Создавай 2D-игры с помощью ИИ</span>
           </div>
           <div className="flex items-center gap-4">
             <Button 
@@ -83,7 +109,7 @@ const Index = () => {
             </div>
             <div className="flex gap-2">
               <Textarea
-                placeholder="Опиши игру, которую хочешь создать..."
+                placeholder="Опиши 2D-игру, которую хочешь создать..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 className="resize-none"

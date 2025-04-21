@@ -40,7 +40,7 @@ export function GameWindow({ active, gameDescription }: GameWindowProps) {
       setGameType("shooter");
     } else if (desc.includes("голово") || desc.includes("puzzle") || desc.includes("загад")) {
       setGameType("puzzle");
-    } else if (desc.includes("платформер") || desc.includes("платформ") || desc.includes("jump")) {
+    } else if (desc.includes("платформер") || desc.includes("платформ") || desc.includes("jump") || desc.includes("прыж")) {
       setGameType("platformer");
     } else if (desc.includes("гонк") || desc.includes("racing") || desc.includes("машин") || desc.includes("car")) {
       setGameType("racing");
@@ -433,7 +433,8 @@ export function GameWindow({ active, gameDescription }: GameWindowProps) {
         <CardContent className="text-center py-10">
           <div className="text-muted-foreground mb-4">
             <div className="text-6xl mb-4">🎮</div>
-            <p>Опиши игру, и я создам её для тебя!</p>
+            <p>Опиши 2D-игру, и я создам её для тебя!</p>
+            <p className="text-xs mt-2">Наша нейросеть создаёт только 2D-игры</p>
           </div>
         </CardContent>
       </Card>
@@ -498,7 +499,7 @@ export function GameWindow({ active, gameDescription }: GameWindowProps) {
               </div>
             )}
             <div className="absolute bottom-4 right-4 bg-background/80 px-2 py-1 rounded text-xs">
-              PLGpt
+              PLGpt • 2D Игры
             </div>
           </div>
         </div>
